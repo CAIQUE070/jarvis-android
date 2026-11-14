@@ -1,0 +1,6 @@
+{
+  "name": "J.A.R.V.I.S. — Assistente Pessoal",
+  "description": "Assistente pessoal de voz em português brasileiro com interface holográfica interativa, síntese neural gratuita e cérebro LLM via Groq.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
