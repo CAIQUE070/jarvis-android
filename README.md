@@ -35,16 +35,20 @@ Réplica interativa da interface holográfica do J.A.R.V.I.S., com núcleo reati
 
 ## Build Android
 
+### APK pronto para instalar
+
+- **Download:** [J.A.R.V.I.S. Android v1.0.0](https://github.com/CAIQUE070/jarvis-android/releases/download/v1.0.0/jarvis-android-v1.0.0-debug.apk)
+
+O APK exige internet para a voz neural Edge. As vozes padrão do sistema Android nunca são utilizadas para a fala do JARVIS.
+
 ### GitHub Actions
 
-Cada push na branch `main` executa o workflow `Build Android APK`. Após a conclusão:
+Quando o GitHub Actions está disponível na conta, cada push na branch `main` executa o workflow `Build Android APK`. Após a conclusão:
 
 1. Abra a aba **Actions** no repositório.
 2. Selecione a execução mais recente.
 3. Baixe o artefato `jarvis-android-debug`.
 4. Instale o `app-debug.apk` no celular.
-
-O APK exige internet para a voz neural Edge. As vozes padrão do sistema Android nunca são utilizadas para a fala do JARVIS.
 
 ### Build local
 
