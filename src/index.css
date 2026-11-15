@@ -55,6 +55,19 @@
   }
 }
 
+.jarvis-vivid-hud {
+  --jarvis-ui-saturation: 1.36;
+  --jarvis-ui-contrast: 1.035;
+  filter: saturate(var(--jarvis-ui-saturation)) contrast(var(--jarvis-ui-contrast));
+}
+
+@media (max-width: 767px) {
+  .jarvis-vivid-hud {
+    --jarvis-ui-saturation: 1.5;
+    --jarvis-ui-contrast: 1.05;
+  }
+}
+
 .hud-shimmer-surface {
   background-image: linear-gradient(
     110deg,

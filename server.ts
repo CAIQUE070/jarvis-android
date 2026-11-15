@@ -16,6 +16,12 @@ const ALLOWED_VOICES = new Set([
   'pt-BR-AntonioNeural',
 ]);
 
+const TTS_FALLBACK_VOICES = [
+  'en-US-BrianMultilingualNeural',
+  'en-AU-WilliamMultilingualNeural',
+  'pt-BR-AntonioNeural',
+];
+
 const ALLOWED_GROQ_MODELS = new Set([
   'gpt-oss-120b',
   'deepseek-r1-distill-llama-70b',
@@ -2401,22 +2407,37 @@ async function startServer() {
         return;
       }
 
-      const safeVoice =
+      const requestedVoice =
         voice === 'xtts-v2-cloned-neural'
           ? 'pt-BR-AntonioNeural'
           : ALLOWED_VOICES.has(voice)
             ? voice
             : 'en-US-BrianMultilingualNeural';
 
-      try {
-        const mp3Buffer = await synthesizeWithEdgeTTS(cleanText, safeVoice, Number(rate), Number(pitch));
-        res.setHeader('Content-Type', 'audio/mpeg');
-        res.setHeader('Content-Length', String(mp3Buffer.length));
-        res.setHeader('Cache-Control', 'no-store');
-        res.send(mp3Buffer);
-        return;
-      } catch {
-        // Proceed to secondary fallback
+      // Keep every response on the server-side neural engine. If one Edge voice
+      // is temporarily unavailable, try the remaining neural voices instead of
+      // silently switching to the browser speech engine.
+      const voiceCandidates = [
+        requestedVoice,
+        ...TTS_FALLBACK_VOICES.filter((fallbackVoice) => fallbackVoice !== requestedVoice),
+      ];
+
+      for (const candidateVoice of voiceCandidates) {
+        try {
+          const mp3Buffer = await synthesizeWithEdgeTTS(
+            cleanText,
+            candidateVoice,
+            Number(rate),
+            Number(pitch)
+          );
+          res.setHeader('Content-Type', 'audio/mpeg');
+          res.setHeader('Content-Length', String(mp3Buffer.length));
+          res.setHeader('Cache-Control', 'no-store');
+          res.send(mp3Buffer);
+          return;
+        } catch {
+          // Try the next server-side neural voice.
+        }
       }
 
       res.status(503).json({ error: 'Síntese neural temporariamente indisponível.' });
