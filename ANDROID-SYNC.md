@@ -20,7 +20,6 @@ O script atualiza principalmente:
 - `src/`
 - `public/`
 - `index.html`
-- `README.md`
 - arquivos de configuração do Vite/TypeScript
 - `server.ts`
 - `.env.example`

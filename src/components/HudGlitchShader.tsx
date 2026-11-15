@@ -110,8 +110,8 @@ const FRAGMENT_SHADER_SRC = `
     float intensity = clamp(ringGlitch * 0.75 + scanSweep + telemetryBlock * 0.45, 0.0, 0.85);
 
     // Stark Industrial Cobalt / Ice-Blue / Cyan Chromatic Tint
-    vec3 cobaltColor = vec3(0.055, 0.58, 0.96);   // #0E94F5
-    vec3 skyCyanColor = vec3(0.22, 0.74, 0.97);   // #38BDF8
+    vec3 cobaltColor = vec3(0.015, 0.48, 1.0);   // Electric cobalt blue
+    vec3 skyCyanColor = vec3(0.08, 0.72, 1.0);   // Vivid Stark cyan
     vec3 iceWhiteColor = vec3(0.88, 0.95, 1.0);   // #E0F2FE
 
     vec3 col = mix(cobaltColor, skyCyanColor, clamp(coreRingBand + scanline * 0.35, 0.0, 1.0));

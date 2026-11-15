@@ -250,21 +250,21 @@ export const JarvisCoreCanvas: React.FC<JarvisCoreCanvasProps> = ({
         Math.max(76, Math.min(112, Math.min(w, h) * 0.138)) *
         (1 - 0.22 * elevatedMix);
 
-      // 1. Deep Obsidian-Navy Canvas Background
-      ctx.fillStyle = standbyMix > 0.5 ? '#04060C' : '#050811';
+      // 1. Deep Electric-Obsidian Canvas Background
+      ctx.fillStyle = standbyMix > 0.5 ? '#02050D' : '#020713';
       ctx.fillRect(0, 0, w, h);
 
       // Soft central monitor backlight vignette
-      const bgGlowAlpha = (1 - standbyMix * 0.72) * (0.24 + smoothedRms * 0.14);
+      const bgGlowAlpha = (1 - standbyMix * 0.72) * (0.3 + smoothedRms * 0.16);
       const bgGrad = ctx.createRadialGradient(cx, cy, baseR * 0.2, cx, cy, Math.max(w, h) * 0.62);
-      bgGrad.addColorStop(0, `rgba(14, 42, 84, ${bgGlowAlpha.toFixed(3)})`);
-      bgGrad.addColorStop(0.45, `rgba(8, 20, 42, ${(bgGlowAlpha * 0.45).toFixed(3)})`);
-      bgGrad.addColorStop(1, 'rgba(3, 5, 11, 0)');
+      bgGrad.addColorStop(0, `rgba(0, 76, 196, ${bgGlowAlpha.toFixed(3)})`);
+      bgGrad.addColorStop(0.45, `rgba(0, 30, 102, ${(bgGlowAlpha * 0.52).toFixed(3)})`);
+      bgGrad.addColorStop(1, 'rgba(2, 4, 12, 0)');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
       // 2. Architectural Blueprint Coordinate Grid (fades cleanly in Standby Mode)
-      const gridAlpha = (1 - standbyMix * 0.88) * 0.085;
+      const gridAlpha = (1 - standbyMix * 0.88) * 0.11;
       if (gridAlpha > 0.004) {
         const gridStep = 52;
         const offsetX = cx % gridStep;

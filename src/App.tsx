@@ -1281,7 +1281,7 @@ export default function App() {
     liveTranscript || (config.showSubtitles ? activeSubtitle : '');
 
   return (
-    <main className="jarvis-vivid-hud relative w-screen h-screen overflow-hidden bg-[#050811]">
+    <main className="jarvis-vivid-hud relative w-screen h-screen overflow-hidden bg-[#020713]">
       {/* Full-Viewport Audio-Reactive Holographic Core & 3D Standby Globe */}
       <JarvisCoreCanvas
         status={status}

@@ -1,4 +1,8 @@
 import { DspPreset, VoiceConfig } from '../types/jarvis';
+import {
+  canUseDirectEdgeNeuralTts,
+  synthesizeDirectEdgeNeuralTts,
+} from './edgeNeuralTts';
 
 export interface AudioSpectrumFrame {
   rms: number;
@@ -136,22 +140,43 @@ class JarvisAudioEngine {
     const cached = this.decodedCache.get(cacheKey);
     if (cached) return cached;
 
-    const response = await fetch('/api/jarvis/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: chunkText,
-        voice: config.voiceId,
-        rate: config.rate,
-        pitch: config.pitch,
-      }),
-    });
+    let arrayBuffer: ArrayBuffer | null = null;
 
-    if (!response.ok) {
-      throw new Error(`TTS HTTP ${response.status}`);
+    // No APK uses the operating system's built-in TTS. On an Edge-compatible
+    // WebView (the Android build), use the exact same Edge neural voice as the
+    // PC directly. Chrome and other browsers continue through the local API.
+    if (canUseDirectEdgeNeuralTts()) {
+      try {
+        arrayBuffer = await synthesizeDirectEdgeNeuralTts(
+          chunkText,
+          config.voiceId,
+          config.rate,
+          config.pitch
+        );
+      } catch {
+        // If direct Edge synthesis is temporarily unavailable, use the PC API.
+      }
     }
 
-    const arrayBuffer = await response.arrayBuffer();
+    if (!arrayBuffer) {
+      const response = await fetch('/api/jarvis/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: chunkText,
+          voice: config.voiceId,
+          rate: config.rate,
+          pitch: config.pitch,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`TTS HTTP ${response.status}`);
+      }
+
+      arrayBuffer = await response.arrayBuffer();
+    }
+
     if (arrayBuffer.byteLength < 128) {
       throw new Error('Buffer de áudio insuficiente');
     }

@@ -56,15 +56,19 @@
 }
 
 .jarvis-vivid-hud {
-  --jarvis-ui-saturation: 1.36;
-  --jarvis-ui-contrast: 1.035;
-  filter: saturate(var(--jarvis-ui-saturation)) contrast(var(--jarvis-ui-contrast));
+  --jarvis-ui-saturation: 1.5;
+  --jarvis-ui-contrast: 1.055;
+  --jarvis-ui-brightness: 1.025;
+  filter: saturate(var(--jarvis-ui-saturation))
+    contrast(var(--jarvis-ui-contrast))
+    brightness(var(--jarvis-ui-brightness));
 }
 
 @media (max-width: 767px) {
   .jarvis-vivid-hud {
-    --jarvis-ui-saturation: 1.5;
-    --jarvis-ui-contrast: 1.05;
+    --jarvis-ui-saturation: 1.72;
+    --jarvis-ui-contrast: 1.09;
+    --jarvis-ui-brightness: 1.04;
   }
 }
 
